@@ -5,7 +5,10 @@ This project is a lightweight MCP ([Model Context Protocol](https://modelcontext
 ## Features
 - Lightweight and fast, built on [Nitro](https://nitro.build/)
 - Tools located at `/tools`
-- Input schema validation with [Zod](https://zod.dev/)
+- Input and output schema validation with [Zod](https://zod.dev/)
+_ Example tools included:
+  - `echo`: Echoes back the input, demonstrating basic tool functionality
+  - `getPostsByUser`: Fetches posts by a user, demonstrating output schema validation and `structuredContent`
 - Easy integration with MCP clients
 
 ## Getting Started
@@ -39,8 +42,7 @@ pnpm inspect
 1. Open your browser and navigate to the inspector URL like `http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=<token>` to access the MCP inspector.
 2. Enter the address and port of your server at the URL field, like `http://localhost:3000/mcp`.
 3. Click "Connect" to establish a connection to your MCP Server.
-4. You cna list the tools and invoke them.
-
+4. You can list the tools and invoke them.
 
 ### Building the server
 
@@ -55,9 +57,8 @@ Configuration options can be set in the `.env` file. Options include:
 - `NITRO_MCP_SERVER_HOST`: The host the server listens on (default: `localhost`)
 - `NITRO_MCP_SERVER_PORT`: The port the server listens on (default: 3000)
 
-
 ## Contributing
 Pull requests and issues are welcome! Please open an issue to discuss your ideas or report bugs.
 
 ## License
-MIT License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
