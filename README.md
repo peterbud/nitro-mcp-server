@@ -1,12 +1,12 @@
 # Nitro MCP Server
 
-This project is a lightweight MCP ([Model Context Protocol](https://modelcontextprotocol.io/)) server powered by the [Nitro](https://nitro.build/). It is designed to demonstrate how to implement an MCP Server.
+This project is an MCP ([Model Context Protocol](https://modelcontextprotocol.io/)) server using **streamable HTTP** transport powered by the [Nitro](https://nitro.build/). It is designed to demonstrate how to implement an MCP Server. Please note currently there is no authentication implemented, so this is not suitable for production use.
 
 ## Features
 - Lightweight and fast, built on [Nitro](https://nitro.build/)
 - Tools located at `/tools`
 - Input and output schema validation with [Zod](https://zod.dev/)
-_ Example tools included:
+- Example tools included:
   - `echo`: Echoes back the input, demonstrating basic tool functionality
   - `getPostsByUser`: Fetches posts by a user, demonstrating output schema validation and `structuredContent`
 - Easy integration with MCP clients
@@ -56,6 +56,10 @@ This will create a production-ready build in the `.output` directory.
 Configuration options can be set in the `.env` file. Options include:
 - `NITRO_MCP_SERVER_HOST`: The host the server listens on (default: `localhost`)
 - `NITRO_MCP_SERVER_PORT`: The port the server listens on (default: 3000)
+
+## Todo
+- Implement prompts and resources
+- Add authentication support
 
 ## Contributing
 Pull requests and issues are welcome! Please open an issue to discuss your ideas or report bugs.
