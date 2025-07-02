@@ -1,4 +1,10 @@
-import type { ToolCallback } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type {
+  ReadResourceCallback,
+  ReadResourceTemplateCallback,
+  ResourceMetadata,
+  ResourceTemplate,
+  ToolCallback,
+} from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { ZodRawShape } from 'zod'
 
 // Define the type for a tool matching MCP registerTool signature
@@ -14,4 +20,11 @@ export interface Tool<InputArgs extends ZodRawShape, OutputArgs extends ZodRawSh
   handler: OutputArgs extends undefined
     ? ToolCallback<InputArgs>
     : (args: any) => Promise<{ structuredContent: any }>
+}
+
+export interface ResourceDefinition {
+  name: string
+  uriOrTemplate: string | ResourceTemplate
+  config: ResourceMetadata
+  readCallback: ReadResourceCallback | ReadResourceTemplateCallback
 }

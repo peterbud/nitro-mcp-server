@@ -8,7 +8,10 @@ This project is an MCP ([Model Context Protocol](https://modelcontextprotocol.io
 - Input and output schema validation with [Zod](https://zod.dev/)
 - Example tools included:
   - `echo`: Echoes back the input, demonstrating basic tool functionality
-  - `getPostsByUser`: Fetches posts by a user, demonstrating output schema validation and `structuredContent`
+  - `getPostsByUser`: Fetches posts by a user using an API, demonstrating output schema validation and `structuredContent`
+- Example resources included:
+  - `posts`: Fetches posts from an API, demonstrating resource handling
+  - `users`: Fetches users from an API, demonstrating resource handling
 - Easy integration with MCP clients
 
 ## Getting Started
@@ -58,7 +61,7 @@ Configuration options can be set in the `.env` file. Options include:
 - `NITRO_MCP_SERVER_PORT`: The port the server listens on (default: 3000)
 
 ## Todo
-- Implement prompts and resources
+- Implement prompts
 - Add authentication support
 
 ## Contributing
