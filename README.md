@@ -61,7 +61,6 @@ Configuration options can be set in the `.env` file. Options include:
 - `NITRO_MCP_SERVER_PORT`: The port the server listens on (default: 3000)
 
 ## Todo
-- Implement prompts
 - Add authentication support
 
 ## Contributing

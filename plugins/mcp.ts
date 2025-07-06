@@ -1,5 +1,6 @@
 import type { ResourceDefinition, Tool } from '~/types'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { savePostsOfUserPrompt } from '~/lib/prompts/savePostsOfUser'
 import { postResource } from '~/lib/resources/postResource'
 import { userResource } from '~/lib/resources/userResource'
 import { echoTool } from '~/lib/tools/echo'
@@ -19,6 +20,11 @@ const resources: ResourceDefinition[] = [
   // Add more resources here as needed
 ]
 
+const prompts = [
+  savePostsOfUserPrompt,
+  // Add more prompts here as needed
+]
+
 let server: McpServer | null = null
 
 export function getServer() {
@@ -36,6 +42,7 @@ export default defineNitroPlugin(async () => {
     capabilities: {
       tools: {},
       resources: {},
+      prompts: {},
     },
   })
 
@@ -47,5 +54,8 @@ export default defineNitroPlugin(async () => {
     server.registerResource(resource.name, resource.uriOrTemplate, resource.config, resource.readCallback)
   }
 
+  for (const prompt of prompts) {
+    server.registerPrompt(prompt.name, prompt.options, prompt.cb)
+  }
   logger.info('Registering MCP server tools')
 })

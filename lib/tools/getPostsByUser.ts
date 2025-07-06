@@ -26,11 +26,13 @@ export const getPostsByUserTool: Tool<typeof inputSchema, typeof outputSchema> =
     const posts = await $fetch<typeof outputSchema>(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
     if (Array.isArray(posts) && posts.length > 0) {
       return {
+        // content: [{ type: 'text', text: JSON.stringify(posts, null, 2) }],
         structuredContent: { posts },
       }
     }
     else {
       return {
+        // content: [],
         structuredContent: { posts: [] },
       }
     }
