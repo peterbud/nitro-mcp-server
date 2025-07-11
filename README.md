@@ -60,8 +60,46 @@ Configuration options can be set in the `.env` file. Options include:
 - `NITRO_MCP_SERVER_HOST`: The host the server listens on (default: `localhost`)
 - `NITRO_MCP_SERVER_PORT`: The port the server listens on (default: 3000)
 
+## Authentication
+Authentication is supported via pluggable providers. Currently, Auth0 and Microsoft Entra ID are available. You can enable authentication by configuring the provider in your server settings.
+
+As many Identity Providers do not support Dynamic Client Registration (DCR), this application uses an oAuth proxy solution to provide DCR as MCP specification requires, but delegates all the authentication responsibilities to the Identity Provider. Please note as such apply appropriate rate limiting to prevent misuse of `register` endpoint.
+
+### Supported Providers
+- **Auth0**: Configure with your Auth0 domain, client ID, and client secret.
+- **Entra (Microsoft Entra ID)**: Configure with your tenant ID, client ID, and client secret.
+
+Example configuration:
+```js
+mcpServer: {
+  auth: {
+    providers: {
+      auth0: {
+        type: 'auth0',
+        domain: '<your-auth0-domain>',
+        clientId: '<your-client-id>',
+        clientSecret: '<your-client-secret>',
+        scope: 'openid profile email',
+      },
+      entra: {
+        type: 'entra',
+        tenantId: '<your-tenant-id>',
+        clientId: '<your-client-id>',
+        clientSecret: '<your-client-secret>',
+        scope: 'openid profile email',
+      }
+    }
+  }
+}
+```
+
+These settings are configurable in an `.env' file or directly in the development environment, and  at the server configuration in production. See the [env.example](env.example) file for a template.
+
+See the provider files in `lib/auth/` for more details and advanced options.
+
 ## Todo
-- Add authentication support
+
+- Add cleanup task for expired authorization codes
 
 ## Contributing
 Pull requests and issues are welcome! Please open an issue to discuss your ideas or report bugs.

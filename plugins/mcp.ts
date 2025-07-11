@@ -1,5 +1,7 @@
+import type { AuthProvider, AuthProviderConfig } from '~/lib/auth/index'
 import type { ResourceDefinition, Tool } from '~/types'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { ProviderFactory } from '~/lib/auth/factory'
 import { savePostsOfUserPrompt } from '~/lib/prompts/savePostsOfUser'
 import { postResource } from '~/lib/resources/postResource'
 import { userResource } from '~/lib/resources/userResource'
@@ -26,12 +28,24 @@ const prompts = [
 ]
 
 let server: McpServer | null = null
+let authProvider: AuthProvider | null = null
 
 export function getServer() {
   if (!server) {
     throw new Error('MCP server is not initialized')
   }
   return server
+}
+
+export function getAuthProvider() {
+  if (!authProvider) {
+    const defaultProvider = useRuntimeConfig().mcpServer.auth.defaultProvider
+    logger.info(`Using default auth provider: ${defaultProvider}`)
+    authProvider = ProviderFactory.createProvider(
+      useRuntimeConfig().mcpServer.auth.providers[defaultProvider] as AuthProviderConfig,
+    )
+  }
+  return authProvider
 }
 
 export default defineNitroPlugin(async () => {
