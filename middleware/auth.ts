@@ -1,3 +1,5 @@
+import { getAuthProvider } from '~/plugins/mcp'
+
 export default defineEventHandler(async (event) => {
   if (getRequestURL(event).pathname.startsWith('/mcp')
     && useRuntimeConfig().mcpServer.auth.enabled) {
@@ -11,7 +13,19 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    //
-    // event.context.auth = { ...apiToken }
+    const token = authHeader.split(' ')[1]
+
+    try {
+      const userInfo = await getAuthProvider().getUserInfoFromToken(token)
+      event.context.auth = userInfo
+    }
+    catch (error) {
+      logger.error('Retrieving user info failed', error)
+      throw createError({
+        status: 401,
+        statusMessage: 'Unauthorized',
+        message: 'Invalid token: Unknown error',
+      })
+    }
   }
 })

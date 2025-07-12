@@ -1,6 +1,6 @@
 # Nitro MCP Server
 
-This project is an MCP ([Model Context Protocol](https://modelcontextprotocol.io/)) server using **streamable HTTP** transport powered by the [Nitro](https://nitro.build/). It is designed to demonstrate how to implement an MCP Server. Please note currently there is no authentication implemented, so this is not suitable for production use.
+This project is an MCP ([Model Context Protocol](https://modelcontextprotocol.io/)) server using **streamable HTTP** transport powered by the [Nitro](https://nitro.build/). It is designed to demonstrate how to implement an MCP Server including authentication using pluggable providers.
 
 ## Features
 - Lightweight and fast, built on [Nitro](https://nitro.build/)
@@ -13,6 +13,7 @@ This project is an MCP ([Model Context Protocol](https://modelcontextprotocol.io
   - `posts`: Fetches posts from an API, demonstrating resource handling
   - `users`: Fetches users from an API, demonstrating resource handling
 - Easy integration with MCP clients
+- Authentication support with pluggable providers (Auth0, Microsoft Entra ID)
 
 ## Getting Started
 
@@ -61,7 +62,7 @@ Configuration options can be set in the `.env` file. Options include:
 - `NITRO_MCP_SERVER_PORT`: The port the server listens on (default: 3000)
 
 ## Authentication
-Authentication is supported via pluggable providers. Currently, Auth0 and Microsoft Entra ID are available. You can enable authentication by configuring the provider in your server settings.
+Authentication is supported via pluggable providers. Currently, Auth0 and Microsoft Entra ID are available. You can enable authentication by configuring the provider in your server settings or your local `.env` file in development.
 
 As many Identity Providers do not support Dynamic Client Registration (DCR), this application uses an oAuth proxy solution to provide DCR as MCP specification requires, but delegates all the authentication responsibilities to the Identity Provider. Please note as such apply appropriate rate limiting to prevent misuse of `register` endpoint.
 
@@ -93,7 +94,7 @@ mcpServer: {
 }
 ```
 
-These settings are configurable in an `.env' file or directly in the development environment, and  at the server configuration in production. See the [env.example](env.example) file for a template.
+These settings are configurable in an `.env' file or directly in the development environment, and at the server configuration in production. See the [env.example](env.example) file for a template.
 
 See the provider files in `lib/auth/` for more details and advanced options.
 

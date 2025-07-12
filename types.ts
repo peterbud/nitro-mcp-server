@@ -23,9 +23,7 @@ export interface Tool<InputArgs extends ZodRawShape, OutputArgs extends ZodRawSh
     outputSchema?: OutputArgs
     annotations?: any
   }
-  handler: OutputArgs extends undefined
-    ? ToolCallback<InputArgs>
-    : (args: any) => Promise<{ structuredContent: any }>
+  handler: ToolCallback<InputArgs>
 }
 
 export interface ResourceDefinition {

@@ -2,6 +2,7 @@ import type {
   AuthProviderConfig,
   OAuthServiceHandleAuthorizationRequest,
 } from './index'
+import { decodeProtectedHeader, jwtVerify } from 'jose'
 import { AuthProvider } from './index'
 
 export interface EntraConfig extends AuthProviderConfig {
@@ -111,6 +112,38 @@ export class EntraProvider extends AuthProvider {
       throw createError({
         statusCode: 400,
         statusMessage: `Token exchange failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      })
+    }
+  }
+
+  async getUserInfoFromToken(token: string): Promise<Record<string, any>> {
+    // Fetch JWKS and verify JWT
+    const configUrl = `https://login.microsoftonline.com/${this.config.tenantId}/v2.0/.well-known/openid-configuration`
+    const jwks = await useCachedJwks(configUrl)
+    const { kid } = decodeProtectedHeader(token)
+    const signingKey = jwks.keys.find((key: any) => key.kid === kid)
+    if (!signingKey) {
+      throw createError({
+        status: 401,
+        statusMessage: 'Unauthorized',
+        message: 'Invalid token: Key not found',
+      })
+    }
+    const audience = this.config.clientId
+    try {
+      const { payload } = await jwtVerify(token, signingKey, { audience })
+      logger.info('JWT verified successfully', payload.preferred_username)
+      return {
+        name: payload.name,
+        email: payload.preferred_username,
+      }
+    }
+    catch (error) {
+      logger.error('JWT verification failed', error)
+      throw createError({
+        status: 401,
+        statusMessage: 'Unauthorized',
+        message: 'Invalid token: Unknown error',
       })
     }
   }

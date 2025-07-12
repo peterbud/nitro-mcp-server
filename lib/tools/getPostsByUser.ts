@@ -22,11 +22,12 @@ export const getPostsByUserTool: Tool<typeof inputSchema, typeof outputSchema> =
     inputSchema,
     outputSchema,
   },
-  handler: async ({ userId }) => {
+  handler: async ({ userId }, { authInfo }) => {
+    // Demonstrate that authInfo is available
+    logger.info('getPostsByUserTool called with authInfo:', authInfo)
     const posts = await $fetch<typeof outputSchema>(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
     if (Array.isArray(posts) && posts.length > 0) {
       return {
-        // content: [{ type: 'text', text: JSON.stringify(posts, null, 2) }],
         structuredContent: { posts },
       }
     }

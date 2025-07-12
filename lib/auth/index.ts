@@ -151,4 +151,5 @@ export abstract class AuthProvider {
     code: string,
     code_verifier?: string
   ): Promise<Record<string, any>>
+  abstract getUserInfoFromToken(token: string): Promise<Record<string, any>>
 }

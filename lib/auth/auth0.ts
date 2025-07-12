@@ -15,6 +15,21 @@ export class Auth0Provider extends AuthProvider {
   protected declare config: Auth0Config
   private baseUrl: string
 
+  private useCachedUserInfo = defineCachedFunction(async (token: string) => {
+    const userInfoUrl = `https://${this.config.domain}/userinfo`
+    const userInfo = await $fetch<any>(userInfoUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return userInfo
+  }, {
+    maxAge: 60 * 5, // 5 minutes
+    name: 'userInfoCache',
+    getKey: (token: string) => `${token.slice(0, 255).replaceAll(/[._]/g, '')}`,
+  })
+
   constructor(config: Auth0Config) {
     super(config)
     this.config = config
@@ -112,6 +127,21 @@ export class Auth0Provider extends AuthProvider {
         statusCode: 400,
         statusMessage: `Token exchange failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       })
+    }
+  }
+
+  async getUserInfoFromToken(token: string): Promise<Record<string, any>> {
+    const userInfo = await this.useCachedUserInfo(token).catch((error) => {
+      logger.error('Failed to fetch user info', error)
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Unauthorized',
+        message: 'Invalid token: Unknown error',
+      })
+    })
+    return {
+      name: userInfo.name,
+      email: userInfo.email,
     }
   }
 }
