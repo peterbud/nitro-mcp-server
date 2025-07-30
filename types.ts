@@ -26,12 +26,19 @@ export interface Tool<InputArgs extends ZodRawShape, OutputArgs extends ZodRawSh
   handler: ToolCallback<InputArgs>
 }
 
-export interface ResourceDefinition {
-  name: string
-  uriOrTemplate: string | ResourceTemplate
-  config: ResourceMetadata
-  readCallback: ReadResourceCallback | ReadResourceTemplateCallback
-}
+export type ResourceDefinition
+  = {
+    name: string
+    uriOrTemplate: string
+    config: ResourceMetadata
+    readCallback: ReadResourceCallback
+  }
+  | {
+    name: string
+    uriOrTemplate: ResourceTemplate
+    config: ResourceMetadata
+    readCallback: ReadResourceTemplateCallback
+  }
 
 interface PromptArgsRawShape {
   [k: string]: ZodType<string, ZodTypeDef, string> | ZodOptional<ZodType<string, ZodTypeDef, string>>

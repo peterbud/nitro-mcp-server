@@ -1,3 +1,4 @@
+import type { ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { AuthProvider, AuthProviderConfig } from '~/lib/auth/index'
 import type { ResourceDefinition, Tool } from '~/types'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
@@ -65,7 +66,14 @@ export default defineNitroPlugin(async () => {
   }
 
   for (const resource of resources) {
-    server.registerResource(resource.name, resource.uriOrTemplate, resource.config, resource.readCallback)
+    if (typeof resource.uriOrTemplate === 'string') {
+      const stringResource = resource as Extract<ResourceDefinition, { uriOrTemplate: string }>
+      server.registerResource(stringResource.name, stringResource.uriOrTemplate, stringResource.config, stringResource.readCallback)
+    }
+    else {
+      const templateResource = resource as Extract<ResourceDefinition, { uriOrTemplate: ResourceTemplate }>
+      server.registerResource(templateResource.name, templateResource.uriOrTemplate, templateResource.config, templateResource.readCallback)
+    }
   }
 
   for (const prompt of prompts) {
