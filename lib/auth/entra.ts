@@ -28,7 +28,7 @@ export class EntraProvider extends AuthProvider {
       resource: this.baseUrl,
       authorization_servers: [
         this.config.supportDCR
-          ? `https://login.microsoftonline.com/${this.config.tenantId}/oauth2/v2.0`
+          ? `https://login.microsoftonline.com/${this.config.tenantId}/v2.0`
           // Use our proxy as the authorization server
           : this.baseUrl,
       ],
