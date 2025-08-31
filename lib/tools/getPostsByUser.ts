@@ -29,12 +29,24 @@ export const getPostsByUserTool: Tool<typeof inputSchema, typeof outputSchema> =
     if (Array.isArray(posts) && posts.length > 0) {
       return {
         structuredContent: { posts },
+        // fallback
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ posts }),
+          },
+        ],
       }
     }
     else {
       return {
-        // content: [],
         structuredContent: { posts: [] },
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ posts: [] }),
+          },
+        ],
       }
     }
   },
