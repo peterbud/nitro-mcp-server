@@ -2,7 +2,7 @@
   "name": "nitro-mcp-server",
   "type": "module",
   "version": "1.0.0",
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.24.0",
   "description": "MCP Server with Nitro",
   "author": "Peter Budai",
   "license": "MIT",
@@ -20,17 +20,17 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.3",
+    "@modelcontextprotocol/sdk": "^1.23.0",
     "consola": "^3.4.2",
-    "jose": "^6.0.12",
-    "nitropack": "^2.12.4",
+    "jose": "^6.1.2",
+    "nitropack": "^2.12.9",
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.1",
-    "@modelcontextprotocol/inspector": "^0.16.5",
-    "@types/node": "^24.3.0",
-    "eslint": "^9.33.0",
-    "typescript": "^5.9.2"
+    "@antfu/eslint-config": "^6.2.0",
+    "@modelcontextprotocol/inspector": "^0.17.2",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3"
   }
 }
